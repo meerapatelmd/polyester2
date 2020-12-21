@@ -5,3 +5,5 @@
 .DS_Store
 synthea/*
 synthea_output/*
+/synthea/
+synthea

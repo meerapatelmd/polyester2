@@ -9,7 +9,7 @@
 #' @param city  (Optional) Population city. If provided, `state` must be provided.
 #' @param edit_synthea.properties If TRUE and the session is interactive, the synthea.properties file is opened for editing and the run is skipped. To run Synthea using the new properties, the function should be called again with this argument set to FALSE.
 #' @return
-#' Simulated data in the `./synthea/output` path.
+#' Simulated data in a timestamped folder in a `synthea_output` path.
 #' @seealso
 #'  \code{\link[cli]{cat_line}}
 #'  \code{\link[glitter]{clone}}
@@ -19,6 +19,7 @@
 #' @importFrom cli cat_rule
 #' @importFrom glitter clone
 #' @importFrom secretary typewrite
+#' @importFrom R.utils copyDirectory
 run_synthea <-
         function(seed,
                  populationSize,
@@ -114,6 +115,18 @@ run_synthea <-
                 cli::cat_rule("Run Synthea")
                 secretary::typewrite(sprintf("\n\t\t\tcd synthea\n\t\t\t./run_synthea %s", args))
                 system(sprintf("cd synthea\n./run_synthea %s", args))
+
+
+                cli::cat_rule("Copy Data To 'synthea_output'")
+                if (!("synthea_output" %in% list.files())) {
+                        secretary::typewrite("'synthea_output' folder created")
+                        dir.create("synthea_output")
+                }
+                new_dir <- file.path("synthea_output", as.character(Sys.time()))
+                R.utils::copyDirectory(from = "synthea/output/",
+                                       to = new_dir)
+
+                secretary::typewrite(sprintf("data copied to '%s'", new_dir))
 
                 }
         }
