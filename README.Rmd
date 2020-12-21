@@ -20,37 +20,42 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/polyester2)](https://CRAN.R-project.org/package=polyester2)
 <!-- badges: end -->
 
-The goal of polyester2 is to ...
+The goal of polyester2 is to create a simulated OMOP CDM database for data modeling. 
 
 ## Installation
 
-You can install the released version of polyester2 from [CRAN](https://CRAN.R-project.org) with:
+You can install polyester2 with:
 
 ``` r
-install.packages("polyester2")
+devtools::install_github("meerapatelmd/polyester2")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Artificial data is first generated using Synthea by:
 
-```{r example}
+```{r example,echo=TRUE,eval=FALSE}
 library(polyester2)
-## basic example code
+run_synthea(populationSize = 1000,
+            state = "California",
+            city = "Los Angeles")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+The output data is located in a subdirectory `synthea_output` folder in the working directory named by timestamp. This way, multiple rounds of Synthea can be executed and saved without being overwritten.  
 
-```{r cars}
-summary(cars)
+
+The native Synthea output can be ETL'd into the OMOP CDM:  
+
+```{r example2,echo=TRUE,eval=FALSE}
+library(polyester2)
+etl_to_omop(user = "root",
+            password = "candycane",
+            server = "localhost/taffeta",
+            port = 5432,
+            omop_cdm_schema = "omop",
+            synthea_schema = "synthea",
+            path_to_synthea_csvs = "synthea_output/2020-11-14 11:00:00:00/csv",
+            path_to_omop_vocab_csvs = "~/athena_vocabulary")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+The function will fail to execute if a connection cannot be made using the credentials provided or if the schemas do not exist.  

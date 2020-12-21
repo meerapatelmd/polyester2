@@ -1,18 +1,10 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param connDetails PARAM_DESCRIPTION, Default: cd
-#' @param omop_cdm_schema PARAM_DESCRIPTION, Default: 'cdm_synthea10'
-#' @param synthea_schema PARAM_DESCRIPTION, Default: 'native'
-#' @param path_to_synthea_csvs PARAM_DESCRIPTION, Default: '/tmp/synthea/output/csv'
-#' @param path_to_omop_vocab_csvs PARAM_DESCRIPTION, Default: '/tmp/Vocabulary_20181119'
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @title
+#' Synthea to OMOP ETL
+#' @param connDetails  Connection Details object, Default: cd
+#' @param omop_cdm_schema Destination schema for the OMOP Vocabulary Tables and ETL'd Synthea data
+#' @param synthea_schema  Schema where the native synthea csvs will be loaded for the ETL.
+#' @param path_to_synthea_csvs Path to the csvs produced by \code{\link{run_synthea}}.
+#' @param path_to_omop_vocab_csvs Path to csvs downloaded the reconstituted (if CPT4 is desired) from \url{athena.ohdsi.org}.
 #' @seealso
 #'  \code{\link[secretary]{typewrite}}
 #'  \code{\link[ETLSyntheaBuilder]{DropVocabTables}},\code{\link[ETLSyntheaBuilder]{DropEventTables}},\code{\link[ETLSyntheaBuilder]{DropSyntheaTables}},\code{\link[ETLSyntheaBuilder]{DropMapAndRollupTables}},\code{\link[ETLSyntheaBuilder]{CreateVocabTables}},\code{\link[ETLSyntheaBuilder]{CreateEventTables}},\code{\link[ETLSyntheaBuilder]{CreateSyntheaTables}},\code{\link[ETLSyntheaBuilder]{LoadSyntheaTables}},\code{\link[ETLSyntheaBuilder]{LoadVocabFromCsv}},\code{\link[ETLSyntheaBuilder]{CreateVocabMapTables}},\code{\link[ETLSyntheaBuilder]{CreateVisitRollupTables}},\code{\link[ETLSyntheaBuilder]{LoadEventTables}}
@@ -20,12 +12,23 @@
 #' @export
 #' @importFrom secretary typewrite
 #' @importFrom ETLSyntheaBuilder DropVocabTables DropEventTables DropSyntheaTables DropMapAndRollupTables CreateVocabTables CreateEventTables CreateSyntheaTables LoadSyntheaTables LoadVocabFromCsv CreateVocabMapTables CreateVisitRollupTables LoadEventTables
+
 etl_to_omop <-
-    function(connDetails = cd,
-              omop_cdm_schema = "cdm_synthea10",
-              synthea_schema = "native",
-              path_to_synthea_csvs = "/tmp/synthea/output/csv",
-              path_to_omop_vocab_csvs = "/tmp/Vocabulary_20181119") {
+    function(user = NULL,
+             password = NULL,
+             server = NULL,
+             port = NULL,
+              omop_cdm_schema = "omop_cdm",
+              synthea_schema = "native_synthea",
+              path_to_synthea_csvs = "synthea_output/2020-12-20 20:12:56/csv/",
+              path_to_omop_vocab_csvs = "") {
+
+      cd <-
+      DatabaseConnector::createConnectionDetails(dbms = "postgresql",
+                                                 user = user,
+                                                 password = password,
+                                                 server = server,
+                                                 port = port)
 
       secretary::typewrite("Dropping OMOP Vocabulary Tables...")
       ETLSyntheaBuilder::DropVocabTables(connectionDetails = cd,
