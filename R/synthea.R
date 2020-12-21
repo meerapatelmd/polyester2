@@ -1,18 +1,15 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param seed PARAM_DESCRIPTION
-#' @param populationSize PARAM_DESCRIPTION
-#' @param moduleFilter PARAM_DESCRIPTION
-#' @param state PARAM_DESCRIPTION
-#' @param city PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @title
+#' Run Synthea
+#' @description
+#' Run synthea according to the README guide found \href{here}{https://github.com/synthetichealth/synthea/blob/master/README.md}. The default setting opens the synthea.properties file to set the output parameters, such as setting the exporter.csv.export option to TRUE, which is required for \href{Synthea to OMOP builder}{https://github.com/OHDSI/ETL-Synthea}, which works off of the csv files and not the fhir files. To complete the run, this function should be re-called after saving any changes to the synthea.properties file and setting edit_synthea.properties to FALSE.
+#' @param seed (Optional) Seed.
+#' @param populationSize (Optional) Integer of simulated population size.
+#' @param moduleFilter (Optional) Filter for a module. For example, "metabolic*" for all metabolic modules.
+#' @param state (Optional) Population state. Defaults to Massachusetts.
+#' @param city  (Optional) Population city. If provided, `state` must be provided.
+#' @param edit_synthea.properties If TRUE and the session is interactive, the synthea.properties file is opened for editing and the run is skipped. To run Synthea using the new properties, the function should be called again with this argument set to FALSE.
+#' @return
+#' Simulated data in the `./synthea/output` path.
 #' @seealso
 #'  \code{\link[cli]{cat_line}}
 #'  \code{\link[glitter]{clone}}
@@ -27,7 +24,8 @@ run_synthea <-
                  populationSize,
                  moduleFilter,
                  state,
-                 city) {
+                 city,
+                 edit_synthea.properties = TRUE) {
 
                 if (missing(state) && !missing(city)) {
 
@@ -101,12 +99,21 @@ run_synthea <-
                                 c(args,
                                   city)
                 }
-
                 args <- paste(args, collapse = " ")
+
+                if (edit_synthea.properties) {
+
+                        if (interactive()) {
+
+                                cli::cat_rule("Edit Synthea Properties")
+
+                                system(sprintf("open %s", "synthea/src/main/resources/synthea.properties"))
+                        }
+                } else {
 
                 cli::cat_rule("Run Synthea")
                 secretary::typewrite(sprintf("\n\t\t\tcd synthea\n\t\t\t./run_synthea %s", args))
                 system(sprintf("cd synthea\n./run_synthea %s", args))
 
-
+                }
         }
