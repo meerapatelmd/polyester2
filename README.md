@@ -12,7 +12,11 @@ status](https://www.r-pkg.org/badges/version/polyester2)](https://CRAN.R-project
 <!-- badges: end -->
 
 This package creates a simulated patient population using Synthea and
-ETL it into the OMOP Common Data Model.
+ETL it into the OMOP Common Data Model. It is centered around 2 major
+operations: 1. Creating a synthetic database using Synthea and 2. the
+ETL to OMOP, governed by function `etl_to_omop` that is a convenience
+wrapper function around the suite of ETL functions in [OHDI’s
+ETL-Synthea package](https://github.com/OHDSI/ETL-Synthea)
 
 ## Installation
 

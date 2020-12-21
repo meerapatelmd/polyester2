@@ -7,3 +7,4 @@ synthea/*
 synthea_output/*
 /synthea/
 synthea
+inst/doc

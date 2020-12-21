@@ -10,7 +10,10 @@ Authors@R:
 Description: Create a simulation patient population using Synthea and ETL it into the OMOP Common Data Model
 License: MIT + file LICENSE
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    spelling
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
@@ -18,3 +21,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 URL: https://github.com/meerapatelmd/polyester2
 BugReports: https://github.com/meerapatelmd/polyester2/issues
+VignetteBuilder: knitr
+Language: en-US

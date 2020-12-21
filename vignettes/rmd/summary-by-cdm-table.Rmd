@@ -1,0 +1,253 @@
+---
+title: "Summary by CDM Table"
+author: "Meera Y. Patel, MD"
+date: "12/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      cache = TRUE)
+```
+
+```{r}
+library(pg13)
+```
+
+```{r}
+conn <- local_connect("polyester")
+```
+
+## PERSON  
+
+```{r}  
+output <- summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'PERSON')
+```
+
+```{r}
+output %>% 
+        purrr::map(as.data.frame) %>%
+        purrr::map(as_tibble) 
+```
+
+## OBSERVATION_PERIOD  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'OBSERVATION_PERIOD')
+```
+
+
+## VISIT_OCCURRENCE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'VISIT_OCCURRENCE')
+```
+
+
+## VISIT_DETAIL  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'VISIT_DETAIL')
+```
+
+
+## CONDITION_OCCURRENCE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'CONDITION_OCCURRENCE')
+```
+
+
+## DRUG_EXPOSURE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'DRUG_EXPOSURE')
+```
+
+
+## PROCEDURE_OCCURRENCE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'PROCEDURE_OCCURRENCE')
+```
+
+
+## DEVICE_EXPOSURE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'DEVICE_EXPOSURE')
+```
+
+
+## MEASUREMENT  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'MEASUREMENT')
+```
+
+
+## OBSERVATION  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'OBSERVATION')
+```
+
+
+## NOTE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'NOTE')
+```
+
+
+## SPECIMEN  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'SPECIMEN')
+```
+
+
+## FACT_RELATIONSHIP  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'FACT_RELATIONSHIP')
+```
+
+
+## SURVEY_CONDUCT  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'SURVEY_CONDUCT')
+```
+
+
+## LOCATION  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'LOCATION')
+```
+
+
+## LOCATION_HISTORY  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'LOCATION_HISTORY')
+```
+
+
+## CARE_SITE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'CARE_SITE')
+```
+
+
+## PROVIDER  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'PROVIDER')
+```
+
+
+## PAYER_PLAN_PERIOD  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'PAYER_PLAN_PERIOD')
+```
+
+
+## COST  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'COST')
+```
+
+
+## DRUG_ERA  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'DRUG_ERA')
+```
+
+
+## DOSE_ERA  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'DOSE_ERA')
+```
+
+
+## CONDITION_ERA  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'CONDITION_ERA')
+```
+
+
+## METADATA  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'METADATA')
+```
+
+
+## CDM_SOURCE  
+
+```{r}  
+summarize_table(conn = conn, 
+                           schema = 'omop_cdm', 
+                           table = 'CDM_SOURCE')
+```
+
+```{r}
+dc(conn = conn)
+```
+
