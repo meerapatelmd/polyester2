@@ -7,18 +7,18 @@
 #' @param city PARAM_DESCRIPTION
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
-#' @examples
+#' @examples 
 #' \dontrun{
 #' if(interactive()){
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @seealso
+#' @seealso 
 #'  \code{\link[cli]{cat_line}}
 #'  \code{\link[glitter]{clone}}
 #'  \code{\link[secretary]{typewrite}}
 #' @rdname run_synthea
-#' @export
+#' @export 
 #' @importFrom cli cat_rule
 #' @importFrom glitter clone
 #' @importFrom secretary typewrite
