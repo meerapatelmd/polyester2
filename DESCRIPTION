@@ -1,5 +1,5 @@
 Package: polyester2
-Title: What the Package Does (One Line, Title Case)
+Title: ETL Synthea into OMOP CDM
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Meera",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "patelmeeray@gmail.com",
            comment = c(ORCID = "0000-0002-3401-3948"))
-Description: What the package does (one paragraph).
+Description: Create a simulation patient population using Synthea and ETL it into the OMOP Common Data Model
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)

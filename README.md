@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# polyester2
+# polyester2 <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
 <!-- badges: start -->
 
@@ -11,8 +11,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/polyester2)](https://CRAN.R-project.org/package=polyester2)
 <!-- badges: end -->
 
-The goal of polyester2 is to create a simulated OMOP CDM database for
-data modeling.
+This package creates a simulated patient population using Synthea and
+ETL it into the OMOP Common Data Model.
 
 ## Installation
 

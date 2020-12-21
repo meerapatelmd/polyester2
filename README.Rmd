@@ -13,14 +13,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-# polyester2
+
+# polyester2 <img src="man/figures/logo.png" align="right" alt="" width="120" />  
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/polyester2)](https://CRAN.R-project.org/package=polyester2)
 <!-- badges: end -->
 
-The goal of polyester2 is to create a simulated OMOP CDM database for data modeling. 
+This package creates a simulated patient population using Synthea and ETL it into the OMOP Common Data Model.  
+
 
 ## Installation
 
@@ -29,6 +31,7 @@ You can install polyester2 with:
 ``` r
 devtools::install_github("meerapatelmd/polyester2")
 ```
+
 
 ## Example
 
