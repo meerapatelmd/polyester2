@@ -1,21 +1,17 @@
-download_synthea_jar <-
-        function(url = "https://github.com/synthetichealth/synthea/releases/download/master-branch-latest/synthea-with-dependencies.jar") {
-
-                file <- basename(url)
-                tmpDir <- tempdir(check = TRUE)
-                destfile <- file.path(tmpDir, file)
-                download.file(url = url,
-                              destfile = destfile)
-
-
-                invisible(destfile)
-
-        }
-
-
-
 run_synthea <-
-        function() {
+        function(seed,
+                 populationSize,
+                 moduleFilter,
+                 state,
+                 city) {
+
+                if (missing(state) && !missing(city)) {
+
+                        stop("state must be provided with city")
+
+                }
+
+                # Clone synthea and setup if not already exists
 
                 if (!("synthea" %in% list.files())) {
 
@@ -30,11 +26,63 @@ run_synthea <-
                         system("cd synthea\n./gradlew build check test")
 
 
+                } else {
+
+                        cli::cat_rule("Clone synthetichealth/synthea")
+                        time_diff <- signif(difftime(Sys.time(),file.info("synthea")$ctime), 2)
+                        time_diff_num <- time_diff[[1]]
+                        time_diff_unit <- units(time_diff)
+                        secretary::typewrite(sprintf("synthetichealth/synthea cloned %s %s ago...", time_diff_num, time_diff_unit))
                 }
 
+
+                # Make arguments
+                args <- vector()
+
+                if (!missing(seed)) {
+
+                        args <-
+                                c(args,
+                                  sprintf("-s %s", seed))
+
+                }
+
+                if (!missing(populationSize)) {
+
+                        args <-
+                                c(args,
+                                  sprintf("-p %s", populationSize))
+
+                }
+
+                if (!missing(moduleFilter)) {
+
+                        args <-
+                                c(args,
+                                  sprintf("-m %s", moduleFilter))
+
+                }
+
+                if (!missing(state)) {
+
+                        args <-
+                                c(args,
+                                  state)
+
+                }
+
+                if (!missing(city)) {
+
+                        args <-
+                                c(args,
+                                  city)
+                }
+
+                args <- paste(args, collapse = " ")
+
                 cli::cat_rule("Run Synthea")
-                secretary::typewrite("\n\t\t\tcd synthea\n\t\t\t./run_synthea")
-                system("cd synthea\n./run_synthea")
+                secretary::typewrite(sprintf("\n\t\t\tcd synthea\n\t\t\t./run_synthea %s", args))
+                system(sprintf("cd synthea\n./run_synthea %s", args))
 
 
         }
