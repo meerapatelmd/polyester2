@@ -2,252 +2,187 @@
 title: "Summary by CDM Table"
 author: "Meera Y. Patel, MD"
 date: "12/21/2020"
-output: html_document
+output:
+  html_document: 
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      cache = TRUE)
+                      cache = TRUE,
+                      message = 'hide')
 ```
 
 ```{r}
+library(tidyverse)
 library(pg13)
 ```
 
 ```{r}
-conn <- local_connect("polyester")
-```
-
-## PERSON  
-
-```{r}  
-output <- summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
-                           table = 'PERSON')
+conn <- local_connect(dbname = "polyester")
 ```
 
 ```{r}
-output %>% 
-        purrr::map(as.data.frame) %>%
-        purrr::map(as_tibble) 
-```
+person <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
+                           table = 'PERSON')
 
-## OBSERVATION_PERIOD  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+observation_period <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'OBSERVATION_PERIOD')
-```
 
-
-## VISIT_OCCURRENCE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+visit_occurrence <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'VISIT_OCCURRENCE')
-```
 
-
-## VISIT_DETAIL  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+visit_detail <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'VISIT_DETAIL')
-```
 
-
-## CONDITION_OCCURRENCE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+condition_occurrence <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'CONDITION_OCCURRENCE')
-```
 
-
-## DRUG_EXPOSURE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+drug_exposure <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'DRUG_EXPOSURE')
-```
 
-
-## PROCEDURE_OCCURRENCE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+procedure_occurrence <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'PROCEDURE_OCCURRENCE')
-```
 
-
-## DEVICE_EXPOSURE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+device_exposure <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'DEVICE_EXPOSURE')
-```
 
-
-## MEASUREMENT  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+measurement <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'MEASUREMENT')
-```
 
-
-## OBSERVATION  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+observation <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'OBSERVATION')
-```
 
-
-## NOTE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+note <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'NOTE')
-```
 
-
-## SPECIMEN  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+specimen <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'SPECIMEN')
-```
 
-
-## FACT_RELATIONSHIP  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+fact_relationship <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'FACT_RELATIONSHIP')
-```
 
-
-## SURVEY_CONDUCT  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+survey_conduct <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'SURVEY_CONDUCT')
-```
 
-
-## LOCATION  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+location <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'LOCATION')
-```
 
-
-## LOCATION_HISTORY  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+location_history <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'LOCATION_HISTORY')
-```
 
-
-## CARE_SITE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+care_site <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'CARE_SITE')
-```
 
-
-## PROVIDER  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+provider <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'PROVIDER')
-```
 
-
-## PAYER_PLAN_PERIOD  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+payer_plan_period <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'PAYER_PLAN_PERIOD')
-```
 
-
-## COST  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+cost <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'COST')
-```
 
-
-## DRUG_ERA  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+drug_era <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'DRUG_ERA')
-```
 
-
-## DOSE_ERA  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+dose_era <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'DOSE_ERA')
-```
 
-
-## CONDITION_ERA  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+condition_era <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'CONDITION_ERA')
-```
 
-
-## METADATA  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+metadata <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'METADATA')
-```
 
-
-## CDM_SOURCE  
-
-```{r}  
-summarize_table(conn = conn, 
-                           schema = 'omop_cdm', 
+cdm_source <- summarize_table(conn = conn,
+                           schema = 'omop_cdm',
                            table = 'CDM_SOURCE')
 ```
 
-```{r}
-dc(conn = conn)
+```{r, message='hide'}
+objNames <-
+c('person', 'observation_period', 'visit_occurrence', 'visit_detail', 'condition_occurrence', 'drug_exposure', 'procedure_occurrence', 'device_exposure', 'measurement', 'observation', 'note', 'specimen', 'fact_relationship', 'survey_conduct', 'location', 'location_history', 'care_site', 'provider', 'payer_plan_period', 'cost', 'drug_era', 'dose_era', 'condition_era', 'metadata', 'cdm_source')
+
+for (i in seq_along(objNames)) {
+        
+        x <- get(objNames[i])
+        x <-
+                x %>%
+                purrr::map(function(x) x %>% reduce(bind_cols)) %>%
+                purrr::map(function(x) as_tibble(x)) %>%
+                purrr::map(function(x) x %>% 
+                                        rename_at(., names(x), funs(c("TOTAL_ROWS", "VALUESET_LENGTH", "VALUESET", "NULL_COUNT")))) %>%
+                purrr::map(function(x) x %>% mutate_all(as.character)) %>%
+                dplyr::bind_rows(.id = "FIELD") %>%
+                group_by_at(vars(c(FIELD, TOTAL_ROWS, VALUESET_LENGTH, NULL_COUNT))) %>%
+                summarize_at(vars(VALUESET), ~ paste(unique(.), collapse = "|")) %>%
+                ungroup()
+        
+        assign(x = objNames[i],
+               value = x)
+        
+}
 ```
 
+```{r}
+final <- 
+        list(
+                PERSON = person,
+                OBSERVATION_PERIOD = observation_period,
+                VISIT_OCCURRENCE = visit_occurrence,
+                VISIT_DETAIL = visit_detail,
+                CONDITION_OCCURRENCE = condition_occurrence,
+                DRUG_EXPOSURE = drug_exposure,
+                PROCEDURE_OCCURRENCE = procedure_occurrence,
+                DEVICE_EXPOSURE = device_exposure,
+                MEASUREMENT = measurement,
+                OBSERVATION = observation,
+                NOTE = note,
+                SPECIMEN = specimen,
+                FACT_RELATIONSHIP = fact_relationship,
+                SURVEY_CONDUCT = survey_conduct,
+                LOCATION = location,
+                LOCATION_HISTORY = location_history,
+                CARE_SITE = care_site,
+                PROVIDER = provider,
+                PAYER_PLAN_PERIOD = payer_plan_period,
+                COST = cost,
+                DRUG_ERA = drug_era,
+                DOSE_ERA = dose_era,
+                CONDITION_ERA = condition_era,
+                METADATA = metadata,
+                CDM_SOURCE = cdm_source
+        ) %>%
+        dplyr::bind_rows(.id = "TABLE")
+final
+```
+
+
+```{r}
+dc(conn)
+```

@@ -1,0 +1,29 @@
+---
+title: "Explore FHIR Output"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Explore FHIR Output}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(polyester2)
+```
+
+```{r}
+fhir_files <- list.files("synthea_output/2020-12-20 20:12:56/fhir", full.names = TRUE)
+fhir_files
+```
+
+```{r}
+jsonlite::read_json(path = fhir_files[1], simplifyVector = TRUE)
+```
+
