@@ -22,7 +22,7 @@
 #' @importFrom R.utils copyDirectory
 run_synthea <-
         function(seed,
-                 populationSize,
+                 populationSize = 1000,
                  moduleFilter,
                  state,
                  city,
@@ -34,28 +34,45 @@ run_synthea <-
 
                 }
 
-                # Clone synthea and setup if not already exists
-
-                if (!("synthea" %in% list.files())) {
+                # Clone synthea to ~/Library if it does not exist
+                installation_path <- "~/Library"
+                installation_path <- path.expand(installation_path)
+                synthea_path <- file.path(installation_path, "synthea")
+                if (!("synthea" %in% list.files(installation_path))) {
 
 
                         cli::cat_rule("Clone synthetichealth/synthea")
                         glitter::clone(github_user =  "synthetichealth",
                                        repo = "synthea",
-                                       destination_path = getwd())
+                                       destination_path = installation_path)
 
                         cli::cat_rule("Setup")
-                        secretary::typewrite("\n\t\t\tcd synthea\n\t\t\t./gradlew build check test")
-                        system("cd synthea\n./gradlew build check test")
+                        secretary::typewrite(
+                                sprintf("\n\t\t\tcd %s\n\t\t\t./gradlew build check test",
+                                        synthea_path))
+
+                        if (interactive()) {
+
+                                resp <- readline("Build check test gradlew? (Y/n): ")
+                                if (resp == "Y") {
+                                        system(sprintf("cd %s\n./gradlew build check test",
+                                                       synthea_path))
+                                } else {
+                                        secretary::typewrite(sprintf("Skipped.", synthea_path))
+                                }
+
+                        }
 
 
                 } else {
-
-                        cli::cat_rule("Clone synthetichealth/synthea")
-                        time_diff <- signif(difftime(Sys.time(),file.info("synthea")$ctime), 2)
-                        time_diff_num <- time_diff[[1]]
-                        time_diff_unit <- units(time_diff)
-                        secretary::typewrite(sprintf("synthetichealth/synthea cloned %s %s ago...", time_diff_num, time_diff_unit))
+                        command <-
+                                c("cd",
+                                  sprintf("cd %s", synthea_path),
+                                  "git pull --ff-only")
+                        command <-
+                                paste(command, collapse = "\n")
+                        cli::cat_rule("Pull synthetichealth/synthea")
+                        system(command = command)
                 }
 
 
@@ -107,23 +124,28 @@ run_synthea <-
                         if (interactive()) {
 
                                 cli::cat_rule("Edit Synthea Properties")
-
-                                system(sprintf("open %s", "synthea/src/main/resources/synthea.properties"))
+                                synthea.properties_path <-
+                                        file.path(synthea_path,
+                                                  "src/main/resources/synthea.properties")
+                                file.edit(synthea.properties_path)
+                                #system(sprintf("open %s", synthea.properties_path))
+                        } else {
+                                stop("Cannot edit synthea.properties in a non-interactive session.")
                         }
                 } else {
 
                 cli::cat_rule("Run Synthea")
-                secretary::typewrite(sprintf("\n\t\t\tcd synthea\n\t\t\t./run_synthea %s", args))
-                system(sprintf("cd synthea\n./run_synthea %s", args))
+                secretary::typewrite(sprintf("\n\t\t\tcd %s\n\t\t\t./run_synthea %s", synthea_path, args))
+                system(sprintf("cd %s\n./run_synthea %s", synthea_path, args))
 
 
                 cli::cat_rule("Copy Data To 'synthea_output'")
-                if (!("synthea_output" %in% list.files())) {
+                if (!("synthea_output" %in% list.files(getwd()))) {
                         secretary::typewrite("'synthea_output' folder created")
                         dir.create("synthea_output")
                 }
                 new_dir <- file.path("synthea_output", as.character(Sys.time()))
-                R.utils::copyDirectory(from = "synthea/output/",
+                R.utils::copyDirectory(from = file.path(synthea_path, "output"),
                                        to = new_dir)
 
                 secretary::typewrite(sprintf("data copied to '%s'", new_dir))
